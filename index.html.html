@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Resham Bharti — Developer, Builder, Storyteller. Portfolio of creative projects and experiments.">
+<meta name="theme-color" content="#0a0a0f">
+<title>Resham Bharti — Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   ROOT VARIABLES & RESET
+═══════════════════════════════════════════════ */
+:root {
+  --bg: #07070d;
+  --bg2: #0d0d1a;
+  --surface: rgba(255,255,255,0.04);
+  --surface-hover: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.08);
+  --text: #f0ede8;
+  --muted: #8a8799;
+  --accent: #c8ff57;
+  --accent2: #ff6b6b;
+  --accent3: #57c8ff;
+  --accent4: #b957ff;
+  --glow: rgba(200,255,87,0.15);
+  --nav-bg: rgba(7,7,13,0.7);
+  --star-color: 240,237,232;
+  --font-display: 'DM Serif Display', serif;
+  --font-ui: 'Syne', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+/* ── LIGHT MODE ── */
+body.light {
+  --bg: #f5f3ef;
+  --bg2: #ebe8e2;
+  --surface: rgba(0,0,0,0.04);
+  --surface-hover: rgba(0,0,0,0.07);
+  --border: rgba(0,0,0,0.1);
+  --text: #1a1a24;
+  --muted: #6b6878;
+  --accent: #5a9e00;
+  --accent2: #d94040;
+  --accent3: #0077b6;
+  --accent4: #7c3aed;
+  --glow: rgba(90,158,0,0.12);
+  --nav-bg: rgba(245,243,239,0.8);
+  --star-color: 30,28,40;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-ui);
+  overflow-x:hidden;
+  cursor:none;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{cursor:none;font-family:var(--font-ui)}
+
+/* ═══════════════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════════════ */
+#cursor{
+  width:12px;height:12px;
+  background:var(--accent);
+  border-radius:50%;
+  position:fixed;
+  top:0;left:0;
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width 0.2s,height 0.2s,background 0.2s;
+  mix-blend-mode:exclusion;
+}
+#cursor-trail{
+  width:36px;height:36px;
+  border:1px solid rgba(200,255,87,0.4);
+  border-radius:50%;
+  position:fixed;
+  top:0;left:0;
+  pointer-events:none;
+  z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:left 0.12s ease-out,top 0.12s ease-out,width 0.2s,height 0.2s,opacity 0.2s;
+}
+body:hover #cursor{opacity:1}
+
+/* ═══════════════════════════════════════════════
+   NOISE OVERLAY
+═══════════════════════════════════════════════ */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:9990;
+  opacity:0.5;
+}
+
+/* ═══════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:100;
+  padding:1.25rem 2.5rem;
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--nav-bg);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  transition:background 0.3s;
+}
+.nav-logo{
+  font-family:var(--font-mono);
+  font-size:0.85rem;
+  color:var(--accent);
+  letter-spacing:0.1em;
+}
+.nav-links{
+  display:flex;gap:2rem;list-style:none;
+}
+.nav-links a{
+  font-size:0.8rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+  transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--accent)}
+.nav-dot{
+  width:8px;height:8px;
+  background:var(--accent);
+  border-radius:50%;
+  animation:pulse 2s infinite;
+}
+/* Theme toggle */
+.theme-toggle{
+  width:36px;height:36px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;
+  transition:background 0.2s,border-color 0.2s,transform 0.2s;
+  flex-shrink:0;
+}
+.theme-toggle:hover{
+  background:var(--surface-hover);
+  border-color:var(--accent);
+  transform:rotate(20deg);
+}
+.nav-right{display:flex;align-items:center;gap:1rem}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+#hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  position:relative;
+  overflow:hidden;
+  padding:5rem 2rem 2rem;
+}
+canvas#starfield{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+}
+.hero-glow{
+  position:absolute;
+  width:600px;height:600px;
+  background:radial-gradient(circle, rgba(200,255,87,0.06) 0%, transparent 70%);
+  border-radius:50%;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  animation:float 8s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-52%) scale(1.05)}}
+
+.hero-content{
+  position:relative;z-index:2;
+  text-align:center;
+  max-width:900px;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:0.4rem 1rem;
+  font-family:var(--font-mono);
+  font-size:0.75rem;
+  color:var(--muted);
+  margin-bottom:2rem;
+  backdrop-filter:blur(8px);
+  animation:fadeUp 0.8s ease both;
+}
+.badge-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+.hero-title{
+  font-family:var(--font-display);
+  font-size:clamp(3.5rem,8vw,7rem);
+  line-height:1.05;
+  letter-spacing:-0.02em;
+  margin-bottom:1.5rem;
+  animation:fadeUp 0.8s 0.15s ease both;
+}
+.hero-title em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--accent),var(--accent3));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  font-size:clamp(1rem,2vw,1.25rem);
+  color:var(--muted);
+  max-width:550px;
+  margin:0 auto 2.5rem;
+  line-height:1.7;
+  animation:fadeUp 0.8s 0.3s ease both;
+}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:0.75rem;
+  background:var(--accent);
+  color:#0a0a0f;
+  border:none;
+  border-radius:100px;
+  padding:0.9rem 2rem;
+  font-family:var(--font-ui);
+  font-weight:700;
+  font-size:0.9rem;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+  transition:transform 0.2s,box-shadow 0.2s;
+  animation:fadeUp 0.8s 0.45s ease both;
+}
+.hero-cta:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 32px rgba(200,255,87,0.4);
+}
+.hero-cta svg{transition:transform 0.2s}
+.hero-cta:hover svg{transform:translateX(4px)}
+
+
+
+/* ═══════════════════════════════════════════════
+   EPISODE HEADER
+═══════════════════════════════════════════════ */
+.episode-header{
+  display:flex;align-items:center;gap:1rem;
+  margin-bottom:1rem;
+}
+.ep-num{
+  font-family:var(--font-mono);
+  font-size:0.7rem;
+  color:var(--accent);
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  padding:0.35rem 0.75rem;
+  border:1px solid rgba(200,255,87,0.3);
+  border-radius:4px;
+}
+.ep-line{flex:1;height:1px;background:var(--border)}
+
+/* ═══════════════════════════════════════════════
+   SECTIONS COMMON
+═══════════════════════════════════════════════ */
+section{
+  padding:6rem 2rem;
+  max-width:1100px;
+  margin:0 auto;
+}
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(2.5rem,5vw,4rem);
+  line-height:1.1;
+  margin-bottom:1rem;
+}
+.section-sub{
+  color:var(--muted);
+  font-size:1.05rem;
+  line-height:1.7;
+  max-width:600px;
+  margin-bottom:3rem;
+}
+
+/* ═══════════════════════════════════════════════
+   REVEAL ANIMATIONS
+═══════════════════════════════════════════════ */
+.reveal{
+  opacity:0;
+  transform:translateY(32px);
+  transition:opacity 0.7s ease,transform 0.7s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+.reveal-delay-4{transition-delay:0.4s}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════════════════════════════════════════
+   ABOUT SECTION (EP1)
+═══════════════════════════════════════════════ */
+#about{position:relative}
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4rem;
+  align-items:start;
+}
+.about-text p{
+  color:var(--muted);
+  line-height:1.8;
+  margin-bottom:1.25rem;
+  font-size:1.02rem;
+}
+.about-text p strong{color:var(--text)}
+.type-effect{
+  font-family:var(--font-mono);
+  font-size:0.9rem;
+  color:var(--accent);
+  border-right:2px solid var(--accent);
+  display:inline-block;
+  overflow:hidden;
+  white-space:nowrap;
+  animation:typeCursor 0.8s step-end infinite;
+}
+@keyframes typeCursor{50%{border-color:transparent}}
+.about-cards{
+  display:flex;flex-direction:column;gap:1rem;
+}
+.trait-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.25rem 1.5rem;
+  display:flex;gap:1rem;align-items:flex-start;
+  backdrop-filter:blur(8px);
+  transition:background 0.2s,border-color 0.2s,transform 0.2s;
+}
+.trait-card:hover{
+  background:var(--surface-hover);
+  border-color:rgba(200,255,87,0.2);
+  transform:translateX(6px);
+}
+.trait-icon{font-size:1.5rem;flex-shrink:0;margin-top:2px}
+.trait-title{font-weight:600;font-size:0.9rem;margin-bottom:0.25rem}
+.trait-desc{font-size:0.82rem;color:var(--muted);line-height:1.5}
+
+/* ═══════════════════════════════════════════════
+   PROJECTS (EP2)
+═══════════════════════════════════════════════ */
+#projects{position:relative}
+.projects-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:1.5rem;
+}
+.project-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;
+  position:relative;
+}
+.project-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(200,255,87,0.25);
+  box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(200,255,87,0.1);
+}
+.project-preview{
+  height:200px;
+  position:relative;
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.project-preview-waller{background:linear-gradient(135deg,#1a0533,#2d1b69,#0a1628)}
+.project-preview-food{background:linear-gradient(135deg,#0d2818,#1a4a2e,#2d1b00)}
+.project-preview-qr{background:linear-gradient(135deg,#0a0a1f,#1a1a3f,#0f1f2f)}
+.preview-art{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:4rem;
+  position:relative;
+}
+.preview-art::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 50%,rgba(255,255,255,0.05) 0%,transparent 70%);
+}
+.preview-shimmer{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent);
+  transform:translateX(-100%);
+  transition:transform 0.6s ease;
+}
+.project-card:hover .preview-shimmer{transform:translateX(100%)}
+.project-info{padding:1.5rem}
+.project-name{font-size:1.2rem;font-weight:700;margin-bottom:0.5rem}
+.project-why{
+  font-size:0.82rem;
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:1rem;
+  font-style:italic;
+}
+.project-stack{
+  display:flex;flex-wrap:wrap;gap:0.4rem;
+  margin-bottom:1.25rem;
+}
+.stack-tag{
+  font-family:var(--font-mono);
+  font-size:0.7rem;
+  padding:0.25rem 0.6rem;
+  border-radius:4px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--border);
+  color:var(--muted);
+}
+.project-link{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  font-size:0.82rem;
+  font-weight:600;
+  color:var(--accent);
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+  transition:gap 0.2s;
+}
+.project-link:hover{gap:0.75rem}
+.project-label{
+  position:absolute;top:1rem;right:1rem;
+  font-family:var(--font-mono);
+  font-size:0.65rem;
+  padding:0.2rem 0.5rem;
+  border-radius:4px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+}
+.label-ios{background:rgba(200,87,255,0.2);color:#b957ff;border:1px solid rgba(185,87,255,0.3)}
+.label-web{background:rgba(87,200,255,0.2);color:#57c8ff;border:1px solid rgba(87,200,255,0.3)}
+.label-tool{background:rgba(200,255,87,0.2);color:#c8ff57;border:1px solid rgba(200,255,87,0.3)}
+
+/* ═══════════════════════════════════════════════
+   SKILLS (EP3)
+═══════════════════════════════════════════════ */
+#skills{position:relative;overflow:hidden}
+.skills-container{
+  position:relative;
+  height:450px;
+  display:flex;align-items:center;justify-content:center;
+}
+.skills-center{
+  width:90px;height:90px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.7rem;
+  font-weight:700;
+  color:#0a0a0f;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+  text-align:center;
+  position:relative;z-index:2;
+  box-shadow:0 0 40px rgba(200,255,87,0.3);
+}
+.orbit-ring{
+  position:absolute;
+  border-radius:50%;
+  border:1px solid var(--border);
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+}
+.orbit-1{width:200px;height:200px;animation:orbitSpin 20s linear infinite}
+.orbit-2{width:320px;height:320px;animation:orbitSpin 30s linear infinite reverse}
+.orbit-3{width:420px;height:420px;animation:orbitSpin 40s linear infinite}
+@keyframes orbitSpin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+.skill-bubble{
+  position:absolute;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:0.5rem 1rem;
+  font-size:0.82rem;
+  font-weight:600;
+  white-space:nowrap;
+  backdrop-filter:blur(8px);
+  transition:background 0.2s,border-color 0.2s,transform 0.2s;
+  top:50%;left:50%;
+}
+.skill-bubble:hover{
+  background:var(--surface-hover);
+  border-color:var(--accent);
+  color:var(--accent);
+  transform:translate(-50%,-50%) scale(1.1) !important;
+  z-index:10;
+}
+
+/* ═══════════════════════════════════════════════
+   UNFILTERED (EP4)
+═══════════════════════════════════════════════ */
+#unfiltered{position:relative}
+.cards-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.25rem;
+}
+.flip-card{
+  height:200px;
+  perspective:1000px;
+  cursor:none;
+}
+.flip-inner{
+  width:100%;height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform 0.6s cubic-bezier(0.34,1.56,0.64,1);
+}
+.flip-card:hover .flip-inner{transform:rotateY(180deg)}
+.flip-front,.flip-back{
+  position:absolute;inset:0;
+  border-radius:16px;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:1.5rem;
+  text-align:center;
+}
+.flip-front{
+  background:var(--surface);
+  border:1px solid var(--border);
+}
+.flip-back{
+  transform:rotateY(180deg);
+  border:1px solid rgba(200,255,87,0.2);
+}
+.flip-icon{font-size:2.5rem;margin-bottom:0.75rem}
+.flip-label{font-size:0.9rem;font-weight:600;color:var(--muted)}
+.flip-back-text{
+  font-size:0.88rem;
+  line-height:1.6;
+  color:var(--text);
+}
+.flip-card:nth-child(1) .flip-back{background:linear-gradient(135deg,rgba(200,255,87,0.1),rgba(87,200,255,0.05))}
+.flip-card:nth-child(2) .flip-back{background:linear-gradient(135deg,rgba(255,107,107,0.1),rgba(185,87,255,0.05))}
+.flip-card:nth-child(3) .flip-back{background:linear-gradient(135deg,rgba(87,200,255,0.1),rgba(200,255,87,0.05))}
+.flip-card:nth-child(4) .flip-back{background:linear-gradient(135deg,rgba(185,87,255,0.1),rgba(255,107,107,0.05))}
+.flip-card:nth-child(5) .flip-back{background:linear-gradient(135deg,rgba(200,255,87,0.08),rgba(185,87,255,0.08))}
+.flip-card:nth-child(6) .flip-back{background:linear-gradient(135deg,rgba(87,200,255,0.08),rgba(255,107,107,0.08))}
+
+.thought-scroll{
+  margin-top:3rem;
+  overflow:hidden;
+  padding:1rem 0;
+  position:relative;
+}
+.thought-scroll::before,.thought-scroll::after{
+  content:'';
+  position:absolute;top:0;bottom:0;width:100px;
+  z-index:2;pointer-events:none;
+}
+.thought-scroll::before{left:0;background:linear-gradient(to right,var(--bg),transparent)}
+.thought-scroll::after{right:0;background:linear-gradient(to left,var(--bg),transparent)}
+.thought-track{
+  display:flex;gap:1rem;
+  animation:scrollLeft 25s linear infinite;
+  width:max-content;
+}
+@keyframes scrollLeft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.thought-chip{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:0.5rem 1.25rem;
+  font-size:0.82rem;
+  color:var(--muted);
+  white-space:nowrap;
+  flex-shrink:0;
+}
+
+/* ═══════════════════════════════════════════════
+   CONTACT (EP5)
+═══════════════════════════════════════════════ */
+#contact{
+  min-height:70vh;
+  display:flex;flex-direction:column;
+  justify-content:center;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+#contact::before{
+  content:'';
+  position:absolute;
+  width:800px;height:400px;
+  background:radial-gradient(ellipse,rgba(200,255,87,0.04) 0%,transparent 70%);
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+.contact-title{
+  font-family:var(--font-display);
+  font-size:clamp(3rem,6vw,5.5rem);
+  line-height:1.1;
+  margin-bottom:1.5rem;
+}
+.contact-title em{
+  font-style:italic;
+  color:var(--accent);
+  -webkit-text-fill-color:var(--accent);
+}
+.contact-sub{
+  color:var(--muted);
+  font-size:1.05rem;
+  max-width:480px;
+  margin:0 auto 3rem;
+  line-height:1.7;
+}
+.contact-links{
+  display:flex;flex-wrap:wrap;
+  justify-content:center;gap:1rem;
+  margin-bottom:4rem;
+}
+.contact-btn{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  padding:0.85rem 1.75rem;
+  border-radius:100px;
+  font-size:0.85rem;
+  font-weight:600;
+  letter-spacing:0.04em;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+  transition:all 0.2s;
+  backdrop-filter:blur(8px);
+  text-decoration:none;
+}
+.contact-btn:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+  background:rgba(200,255,87,0.05);
+  transform:translateY(-2px);
+}
+.contact-btn.primary{
+  background:var(--accent);
+  color:#0a0a0f;
+  border-color:var(--accent);
+}
+.contact-btn.primary:hover{
+  background:#b8ef47;
+  color:#0a0a0f;
+  box-shadow:0 0 30px rgba(200,255,87,0.3);
+}
+.footer-note{
+  font-family:var(--font-mono);
+  font-size:0.7rem;
+  color:var(--border);
+  letter-spacing:0.1em;
+}
+
+/* ═══════════════════════════════════════════════
+   SECTION DIVIDER
+═══════════════════════════════════════════════ */
+.divider{
+  max-width:1100px;
+  margin:0 auto;
+  height:1px;
+  background:linear-gradient(to right,transparent,var(--border),transparent);
+}
+
+/* ═══════════════════════════════════════════════
+   GLASS CARD UTILITY
+═══════════════════════════════════════════════ */
+.glass{
+  background:var(--surface);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--border);
+  border-radius:16px;
+}
+
+/* ═══════════════════════════════════════════════
+   FLOATING SHAPES
+═══════════════════════════════════════════════ */
+.float-shape{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  filter:blur(40px);
+  opacity:0.3;
+}
+
+/* ═══════════════════════════════════════════════
+   PROGRESS BAR
+═══════════════════════════════════════════════ */
+#progress{
+  position:fixed;top:0;left:0;
+  height:2px;
+  background:var(--accent);
+  z-index:200;
+  transition:width 0.1s;
+  box-shadow:0 0 8px var(--accent);
+}
+
+/* ═══════════════════════════════════════════════
+   MOBILE
+═══════════════════════════════════════════════ */
+@media(max-width:768px){
+  nav{padding:1rem 1.25rem}
+  .nav-links{display:none}
+  .about-grid{grid-template-columns:1fr}
+  .skills-container{height:300px}
+  .orbit-3{width:280px;height:280px}
+  .orbit-2{width:200px;height:200px}
+  .orbit-1{width:130px;height:130px}
+  .skills-center{width:70px;height:70px;font-size:0.6rem}
+}
+
+/* ── LIGHT MODE SPECIFIC OVERRIDES ── */
+body.light .project-preview-waller{background:linear-gradient(135deg,#e8d5f5,#c4b0e8,#b8d0f0)}
+body.light .project-preview-food{background:linear-gradient(135deg,#d5f0e0,#a8d8b8,#e8f0c8)}
+body.light .project-preview-qr{background:linear-gradient(135deg,#d5d5f0,#b8b8e8,#c8d8f0)}
+body.light .stack-tag{background:rgba(0,0,0,0.05)}
+body.light .hero-title em{background:linear-gradient(135deg,var(--accent),var(--accent3));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+body.light #contact::before{background:radial-gradient(ellipse,rgba(90,158,0,0.06) 0%,transparent 70%)}
+body.light .hero-glow{background:radial-gradient(circle,rgba(90,158,0,0.08) 0%,transparent 70%)}
+body.light .skills-center{color:#fff}
+body.light .label-tool{background:rgba(90,158,0,0.15);color:#3d7200;border-color:rgba(90,158,0,0.3)}
+body.light .label-web{background:rgba(0,119,182,0.12);color:#005a8e;border-color:rgba(0,119,182,0.25)}
+body.light .label-ios{background:rgba(124,58,237,0.12);color:#5b1fbe;border-color:rgba(124,58,237,0.25)}
+body.light .flip-card:nth-child(1) .flip-back{background:linear-gradient(135deg,rgba(90,158,0,0.12),rgba(0,119,182,0.06))}
+body.light .flip-card:nth-child(2) .flip-back{background:linear-gradient(135deg,rgba(217,64,64,0.1),rgba(124,58,237,0.06))}
+body.light .flip-card:nth-child(3) .flip-back{background:linear-gradient(135deg,rgba(0,119,182,0.1),rgba(90,158,0,0.06))}
+body.light .flip-card:nth-child(4) .flip-back{background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(217,64,64,0.06))}
+body.light .flip-card:nth-child(5) .flip-back{background:linear-gradient(135deg,rgba(90,158,0,0.08),rgba(124,58,237,0.08))}
+body.light .flip-card:nth-child(6) .flip-back{background:linear-gradient(135deg,rgba(0,119,182,0.08),rgba(217,64,64,0.08))}
+body.light .footer-note{color:var(--muted)}
+body.light ::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15)}
+body.light ::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+
+/* Mini constellation for about section */
+.mini-constellation{
+  position:absolute;right:-50px;top:0;bottom:0;
+  width:300px;
+  pointer-events:none;
+  opacity:0.15;
+}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="progress"></div>
+
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">RB.dev</div>
+  <ul class="nav-links">
+    <li><a href="#about">ep01</a></li>
+    <li><a href="#projects">ep02</a></li>
+    <li><a href="#skills">ep03</a></li>
+    <li><a href="#unfiltered">ep04</a></li>
+    <li><a href="#contact">ep05</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-dot"></div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">🌙</button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <canvas id="starfield"></canvas>
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      <span>Open to opportunities · Based in India</span>
+    </div>
+    <h1 class="hero-title">
+      Resham <em>Bharti</em><br>
+      builds things.
+    </h1>
+    <p class="hero-sub">
+      Some useful. Some just for the plot. Part developer, part storyteller — always curious.
+    </p>
+    <a href="#about" class="hero-cta">
+      Enter my world
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+
+</section>
+
+<!-- ═══ EP1: THE DEVELOPER ═══ -->
+<section id="about">
+  <div class="episode-header reveal">
+    <span class="ep-num">EP — 01</span>
+    <div class="ep-line"></div>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted)">The Developer</span>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-text">
+      <h2 class="section-title reveal">
+        Hi. I'm Resham.
+      </h2>
+      <div class="reveal reveal-delay-1" style="margin-bottom:1.5rem">
+        <span class="type-effect" id="typewriter"></span>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <p>I'm a developer who believes every line of code is a micro-decision about what the world should feel like. I build apps, tools, and occasionally chaotic experiments — all in the name of learning.</p>
+        <p>My stack changes. My curiosity doesn't. Whether it's <strong>Swift on iOS</strong> or <strong>JavaScript on the web</strong>, I care about the end experience — the feeling someone gets when something just <em>works beautifully</em>.</p>
+        <p>I'm in my <strong>builder era</strong>. Shipping things. Breaking things. Unlearning the wrong lessons and relearning better ones.</p>
+      </div>
+    </div>
+
+    <div class="about-cards">
+      <div class="trait-card reveal reveal-delay-1">
+        <div class="trait-icon">🔭</div>
+        <div>
+          <div class="trait-title">Curious by default</div>
+          <div class="trait-desc">If I don't understand how something works, I build a version of it until I do.</div>
+        </div>
+      </div>
+      <div class="trait-card reveal reveal-delay-2">
+        <div class="trait-icon">🧩</div>
+        <div>
+          <div class="trait-title">Creative problem solver</div>
+          <div class="trait-desc">I don't look for the obvious answer. I look for the one that makes someone smile.</div>
+        </div>
+      </div>
+      <div class="trait-card reveal reveal-delay-3">
+        <div class="trait-icon">⚡</div>
+        <div>
+          <div class="trait-title">Slightly chaotic</div>
+          <div class="trait-desc">Three side projects, one main focus, zero regrets. Chaos is just creativity without labels.</div>
+        </div>
+      </div>
+      <div class="trait-card reveal reveal-delay-4">
+        <div class="trait-icon">🌱</div>
+        <div>
+          <div class="trait-title">Perpetual learner</div>
+          <div class="trait-desc">Currently learning what I don't know. Which is, honestly, still a lot.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ EP2: THINGS I BUILT ═══ -->
+<section id="projects">
+  <div class="episode-header reveal">
+    <span class="ep-num">EP — 02</span>
+    <div class="ep-line"></div>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted)">Things I Built</span>
+  </div>
+  <h2 class="section-title reveal">
+    Shipped &amp; <em style="font-family:var(--font-display);font-style:italic;color:var(--accent)">still shipping.</em>
+  </h2>
+  <p class="section-sub reveal reveal-delay-1">
+    Each project starts with a "wouldn't it be cool if…" and ends with a lot of debugging at 2am.
+  </p>
+
+  <div class="projects-grid">
+    <!-- Waller -->
+    <div class="project-card reveal">
+      <div class="project-preview project-preview-waller">
+        <div class="preview-art">🖼️</div>
+        <div class="preview-shimmer"></div>
+        <span class="project-label label-ios">iOS App</span>
+      </div>
+      <div class="project-info">
+        <div class="project-name">Waller</div>
+        <p class="project-why">"I wanted beautiful wallpapers without ads, paywalls, or bad UX. So I built one."</p>
+        <div class="project-stack">
+          <span class="stack-tag">SwiftUI</span>
+          <span class="stack-tag">Pexels API</span>
+          <span class="stack-tag">iOS</span>
+        </div>
+        <a href="#" class="project-link">
+          View on GitHub
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- AI Food Detector -->
+    <div class="project-card reveal reveal-delay-1">
+      <div class="project-preview project-preview-food">
+        <div class="preview-art">🥗</div>
+        <div class="preview-shimmer"></div>
+        <span class="project-label label-web">Web App</span>
+      </div>
+      <div class="project-info">
+        <div class="project-name">AI Food Detector</div>
+        <p class="project-why">"Point your camera at food. Get nutrition info, recipes, and feel smart about your snacks."</p>
+        <div class="project-stack">
+          <span class="stack-tag">JavaScript</span>
+          <span class="stack-tag">AI API</span>
+          <span class="stack-tag">React</span>
+        </div>
+        <a href="#" class="project-link">
+          View on GitHub
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- QR Generator -->
+    <div class="project-card reveal reveal-delay-2">
+      <div class="project-preview project-preview-qr">
+        <div class="preview-art">📱</div>
+        <div class="preview-shimmer"></div>
+        <span class="project-label label-tool">Tool</span>
+      </div>
+      <div class="project-info">
+        <div class="project-name">QR Code Generator</div>
+        <p class="project-why">"Simple tools done beautifully are underrated. This one is clean, fast, and actually pleasant."</p>
+        <div class="project-stack">
+          <span class="stack-tag">JavaScript</span>
+          <span class="stack-tag">HTML/CSS</span>
+          <span class="stack-tag">QR API</span>
+        </div>
+        <a href="#" class="project-link">
+          View on GitHub
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ EP3: SKILLS ORBIT ═══ -->
+<section id="skills">
+  <div class="episode-header reveal">
+    <span class="ep-num">EP — 03</span>
+    <div class="ep-line"></div>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted)">Things I'm Learning</span>
+  </div>
+  <h2 class="section-title reveal">My solar <em style="font-family:var(--font-display);font-style:italic;color:var(--accent3)">system.</em></h2>
+  <p class="section-sub reveal reveal-delay-1">Everything orbits the same curiosity. Hover to interact.</p>
+
+  <div class="skills-container reveal reveal-delay-2" id="skills-orb">
+    <div class="orbit-ring orbit-1"></div>
+    <div class="orbit-ring orbit-2"></div>
+    <div class="orbit-ring orbit-3"></div>
+    <div class="skills-center">Core<br>Skills</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ EP4: UNFILTERED ═══ -->
+<section id="unfiltered">
+  <div class="episode-header reveal">
+    <span class="ep-num">EP — 04</span>
+    <div class="ep-line"></div>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted)">Unfiltered Me</span>
+  </div>
+  <h2 class="section-title reveal">The human<br><em style="font-family:var(--font-display);font-style:italic;color:var(--accent2)">behind the code.</em></h2>
+  <p class="section-sub reveal reveal-delay-1">Hover the cards. I dare you.</p>
+
+  <div class="cards-row">
+    <div class="flip-card reveal">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-icon">🎮</div>
+          <div class="flip-label">Hobbies</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-text">Gaming, experimenting with design tools, and occasionally starting projects at 11pm that I somehow finish by dawn.</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card reveal reveal-delay-1">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-icon">💭</div>
+          <div class="flip-label">Current obsession</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-text">How AI and design intersect. The tools aren't replacing creativity — they're giving it a new keyboard.</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card reveal reveal-delay-2">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-icon">📚</div>
+          <div class="flip-label">Lessons learned</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-text">Done > perfect. Shipped > planned. A working app with rough edges beats a perfect app that never launches.</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card reveal reveal-delay-3">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-icon">🔄</div>
+          <div class="flip-label">Unlearning</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-text">That I need to know everything before starting. I don't. Just start and let the confusion teach you.</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card reveal">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-icon">🌙</div>
+          <div class="flip-label">Night owl truth</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-text">My best code gets written between 10pm–2am. The bugs also get written then. It's a package deal.</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card reveal reveal-delay-1">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-icon">🚀</div>
+          <div class="flip-label">Big dream</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-text">Build something so useful that someone, somewhere, opens it every single day without thinking about it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scrolling thoughts -->
+  <div class="thought-scroll reveal" style="margin-top:3rem">
+    <div class="thought-track" id="thoughtTrack"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ EP5: CONTACT ═══ -->
+<section id="contact">
+  <div class="episode-header reveal" style="justify-content:center;margin-bottom:2rem">
+    <span class="ep-num">EP — 05</span>
+    <div class="ep-line" style="max-width:80px"></div>
+    <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted)">Let's Build Something</span>
+  </div>
+
+  <h2 class="contact-title reveal">
+    Let's build<br><em>something cool.</em>
+  </h2>
+  <p class="contact-sub reveal reveal-delay-1">
+    Got an idea? A project? A wild "what if"? I'm here for it.
+  </p>
+
+  <div class="contact-links reveal reveal-delay-2">
+    <a href="mailto:resham@example.com" class="contact-btn primary">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M1 5l7 5 7-5" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+      Say hello
+    </a>
+    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="contact-btn">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      GitHub
+    </a>
+    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="contact-btn">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+      </svg>
+      LinkedIn
+    </a>
+  </div>
+
+  <p class="footer-note reveal reveal-delay-3">
+    © 2024 Resham Bharti &nbsp;·&nbsp; Crafted with curiosity &amp; too much caffeine
+  </p>
+</section>
+
+<script>
+/* ═══════════════════════════════════════════════
+   THEME TOGGLE
+═══════════════════════════════════════════════ */
+const themeBtn = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'light') {
+  document.body.classList.add('light');
+  themeBtn.textContent = '☀️';
+}
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  const isLight = document.body.classList.contains('light');
+  themeBtn.textContent = isLight ? '☀️' : '🌙';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+});
+
+
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursor-trail');
+let mx = 0, my = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+  setTimeout(() => {
+    trail.style.left = mx + 'px';
+    trail.style.top = my + 'px';
+  }, 80);
+});
+document.querySelectorAll('a,button,.flip-card,.project-card,.trait-card').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '20px';
+    cursor.style.height = '20px';
+    trail.style.width = '50px';
+    trail.style.height = '50px';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '12px';
+    cursor.style.height = '12px';
+    trail.style.width = '36px';
+    trail.style.height = '36px';
+  });
+});
+
+/* ═══════════════════════════════════════════════
+   PROGRESS BAR
+═══════════════════════════════════════════════ */
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  progress.style.width = pct + '%';
+});
+
+/* ═══════════════════════════════════════════════
+   STARFIELD CANVAS
+═══════════════════════════════════════════════ */
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let stars = [];
+let W, H;
+
+function initCanvas() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  stars = [];
+  for (let i = 0; i < 180; i++) {
+    stars.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.5 + 0.3,
+      vx: (Math.random() - 0.5) * 0.15,
+      vy: (Math.random() - 0.5) * 0.15,
+      opacity: Math.random() * 0.6 + 0.2
+    });
+  }
+}
+initCanvas();
+window.addEventListener('resize', initCanvas);
+
+let mouseX = W / 2, mouseY = H / 2;
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX; mouseY = e.clientY;
+});
+
+function drawStars() {
+  ctx.clearRect(0, 0, W, H);
+  stars.forEach(s => {
+    s.x += s.vx + (mouseX / W - 0.5) * 0.05;
+    s.y += s.vy + (mouseY / H - 0.5) * 0.05;
+    if (s.x < 0) s.x = W;
+    if (s.x > W) s.x = 0;
+    if (s.y < 0) s.y = H;
+    if (s.y > H) s.y = 0;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    const starRGB = getComputedStyle(document.documentElement).getPropertyValue('--star-color').trim() || '240,237,232';
+    ctx.fillStyle = `rgba(${starRGB},${s.opacity})`;
+    ctx.fill();
+  });
+  // draw connections
+  for (let i = 0; i < stars.length; i++) {
+    for (let j = i + 1; j < stars.length; j++) {
+      const dx = stars[i].x - stars[j].x;
+      const dy = stars[i].y - stars[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 100) {
+        ctx.beginPath();
+        ctx.moveTo(stars[i].x, stars[i].y);
+        ctx.lineTo(stars[j].x, stars[j].y);
+        ctx.strokeStyle = `rgba(200,255,87,${0.06 * (1 - dist / 100)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+/* ═══════════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════════ */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+/* ═══════════════════════════════════════════════
+   TYPEWRITER
+═══════════════════════════════════════════════ */
+const phrases = [
+  'developer. builder. tinkerer.',
+  'swift + javascript lover.',
+  'ui/ux thinker.',
+  'currently in my build era.',
+  'curious by default.'
+];
+let pIdx = 0, cIdx = 0, deleting = false;
+const typeEl = document.getElementById('typewriter');
+
+function type() {
+  const current = phrases[pIdx];
+  if (!deleting) {
+    typeEl.textContent = current.slice(0, ++cIdx);
+    if (cIdx === current.length) {
+      deleting = true;
+      setTimeout(type, 2000);
+      return;
+    }
+  } else {
+    typeEl.textContent = current.slice(0, --cIdx);
+    if (cIdx === 0) {
+      deleting = false;
+      pIdx = (pIdx + 1) % phrases.length;
+    }
+  }
+  setTimeout(type, deleting ? 40 : 80);
+}
+setTimeout(type, 1000);
+
+/* ═══════════════════════════════════════════════
+   SKILLS ORBIT
+═══════════════════════════════════════════════ */
+const skillData = [
+  { name: 'Swift', color: '#ff9500', orbit: 1, angle: 0 },
+  { name: 'SwiftUI', color: '#007aff', orbit: 1, angle: Math.PI },
+  { name: 'JavaScript', color: '#c8ff57', orbit: 2, angle: 0 },
+  { name: 'React', color: '#61dafb', orbit: 2, angle: Math.PI * 0.5 },
+  { name: 'HTML/CSS', color: '#e34c26', orbit: 2, angle: Math.PI },
+  { name: 'Git', color: '#f1502f', orbit: 2, angle: Math.PI * 1.5 },
+  { name: 'UI/UX', color: '#b957ff', orbit: 3, angle: 0 },
+  { name: 'APIs', color: '#57c8ff', orbit: 3, angle: Math.PI * 0.4 },
+  { name: 'Cloud Basics', color: '#ff6b6b', orbit: 3, angle: Math.PI * 0.8 },
+  { name: 'Figma', color: '#a259ff', orbit: 3, angle: Math.PI * 1.2 },
+  { name: 'Node.js', color: '#8bc34a', orbit: 3, angle: Math.PI * 1.6 },
+];
+
+const radii = [100, 160, 210];
+const orb = document.getElementById('skills-orb');
+
+skillData.forEach((skill, i) => {
+  const el = document.createElement('div');
+  el.className = 'skill-bubble';
+  el.textContent = skill.name;
+  el.style.color = skill.color;
+  el.style.borderColor = skill.color + '40';
+
+  const r = radii[skill.orbit - 1];
+  const cx = 0, cy = 0;
+  const bx = cx + r * Math.cos(skill.angle);
+  const by = cy + r * Math.sin(skill.angle);
+  el.style.transform = `translate(calc(-50% + ${bx}px), calc(-50% + ${by}px))`;
+
+  orb.appendChild(el);
+
+  // animate orbit
+  let angle = skill.angle;
+  const speed = (skill.orbit === 1 ? 0.006 : skill.orbit === 2 ? 0.004 : 0.003);
+  const dir = i % 2 === 0 ? 1 : -1;
+
+  function animate() {
+    angle += speed * dir;
+    const nx = r * Math.cos(angle);
+    const ny = r * Math.sin(angle);
+    el.style.transform = `translate(calc(-50% + ${nx}px), calc(-50% + ${ny}px))`;
+    requestAnimationFrame(animate);
+  }
+  animate();
+});
+
+/* ═══════════════════════════════════════════════
+   THOUGHT SCROLL
+═══════════════════════════════════════════════ */
+const thoughts = [
+  "currently re-learning everything I thought I knew",
+  "if it works, ship it. if it doesn't, also ship it.",
+  "dark mode or nothing",
+  "the UI is the product",
+  "side projects are therapy",
+  "swift is my first love but js pays the bills",
+  "read the docs. actually read them.",
+  "done is better than perfect",
+  "every app starts with a 'what if'",
+  "naming variables is the hardest part of CS",
+  "keep learning, keep shipping",
+];
+
+const track = document.getElementById('thoughtTrack');
+const doubledThoughts = [...thoughts, ...thoughts];
+doubledThoughts.forEach(t => {
+  const chip = document.createElement('div');
+  chip.className = 'thought-chip';
+  chip.textContent = `"${t}"`;
+  track.appendChild(chip);
+});
+</script>
+</body>
+</html>
